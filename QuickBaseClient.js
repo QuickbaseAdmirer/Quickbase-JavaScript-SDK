@@ -220,7 +220,7 @@ function QuickBaseClient( qdbServer )
         }
         else
         {
-            if ( query.match( /^\{.*\}$/ ) )
+            if ( query.match( /^[\{\(].*[\}\)]$/ ) )
             {
                 this.addParameter( xmlQDBRequest, "query", query );
             }
