@@ -14,6 +14,7 @@ function QuickBaseClient( qdbServer )
 
     this.username = "";
     this.password = "";
+    this.usertoken = "";
     this.ticket = "";
     this.errorcode = "";
     this.errortext = "";
@@ -24,15 +25,26 @@ function QuickBaseClient( qdbServer )
     document.location.href.match( /\/db\/([^\?]+)\?/ );
     this.dbid = RegExp.$1;
 
-    this.Authenticate = function ( username, password )
+    this.Authenticate = function ( username, password, usertoken )
     {
         this.username = username;
         this.password = password;
+        
+        if (usertoken != undefined)
+        {
+            this.usertoken = usertoken;
+        }
+        
         this.ticket = "";
     }
 
     this.GetTicket = function ()
     {
+        if (this.usertoken)
+        {
+            return;
+        }
+        
         var xmlQDBRequest = this.initXMLRequest();
         xmlQDBResponse = this.APIXMLPost( "main", "API_Authenticate", xmlQDBRequest );
         var newTicket = this.selectSingleNode( xmlQDBResponse, "/*/ticket" );
@@ -723,19 +735,28 @@ function QuickBaseClient( qdbServer )
         {
         }
         xmlQDBRequest.appendChild( root );
-
-        if ( !this.ticket )
+        
+        
+        if (this.usertoken)
         {
-            if ( this.username )
-            {
-                this.addParameter( xmlQDBRequest, "username", this.username );
-                this.addParameter( xmlQDBRequest, "password", this.password );
-            }
+            this.addParameter( xmlQDBRequest, "usertoken", this.usertoken );
         }
         else
         {
-            this.addParameter( xmlQDBRequest, "ticket", this.ticket );
+            if ( !this.ticket )
+            {
+                if ( this.username )
+                {
+                    this.addParameter( xmlQDBRequest, "username", this.username );
+                    this.addParameter( xmlQDBRequest, "password", this.password );
+                }
+            }
+            else
+            {
+                this.addParameter( xmlQDBRequest, "ticket", this.ticket );
+            }
         }
+        
         if ( this.apptoken )
         {
             this.addParameter( xmlQDBRequest, "apptoken", this.apptoken );
