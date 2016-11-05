@@ -779,7 +779,7 @@ function QuickBaseClient( qdbServer )
         var Root = xmlQDBRequest.documentElement;
         var ElementNode = xmlQDBRequest.createElement( "field" );
         var attrField;
-        if ( fieldName.match( /^[1-9]\d*$/ ) )
+        if ( fieldName.toString().match( /^[1-9]\d*$/ ) )
         {
             ElementNode.setAttribute( "fid", fieldName )
         }
