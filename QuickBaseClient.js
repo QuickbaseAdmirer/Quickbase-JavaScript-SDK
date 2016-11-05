@@ -510,10 +510,10 @@ function QuickBaseClient( qdbServer )
         var action = "API_GenResultsTable";
         action = action + "&query=" + query;
         action = action + "&clist=" + clist;
-        action = action + "&slist=" + slist;
-        action = action + "&jht=" + jht;
-        action = action + "&jsa=" + jsa;
-        action = action + "&options=" + options;
+        if (typeof slist !== "undefined") action = action + "&slist=" + slist;
+        if (typeof jht !== "undefined") action = action + "&jht=" + jht;
+        if (typeof jsa !== "undefined") action = action + "&jsa=" + jsa;
+        if (typeof options !== "undefined") action = action + "&options=" + options;
         return this.GetURL( dbid, action );
     }
 
