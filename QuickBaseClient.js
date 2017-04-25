@@ -224,7 +224,8 @@ function QuickBaseClient( qdbServer )
 
     this.query = function query( dbid, query, clist, slist, options, fmt, useQueryParam )
     {
-        var xmlQDBRequest = this.initXMLRequest();
+        var xmlQDBRequest = this.initXMLRequest(),
+	    query = String(query);
         this.addParameter( xmlQDBRequest, "fmt", fmt );
         if ( useQueryParam )
         {
@@ -307,7 +308,8 @@ function QuickBaseClient( qdbServer )
 
     this.AddReplaceDBPage = function ( dbid, page, pagetype, pagebody )
     {
-        var xmlQDBRequest = this.initXMLRequest();
+        var xmlQDBRequest = this.initXMLRequest(),
+	    page = String(page);
         if ( page.match( /^[1-9][0-9]*$/ ) )
         {
             this.addParameter( xmlQDBRequest, "pageid", page );
